@@ -44,7 +44,7 @@ def sets2id(entities2id, relations2id, root="OpenBG-IMG", sets='train'):
             ids = [entities2id[line[0]], relations2id[line[1]], entities2id[line[2]]]
             id_sets.append(ids)
     
-    with open(os.path.join(root, sets+'_id.tsv'), 'w') as f:
+    with open(os.path.join(root, sets+'_id.tsv'), 'w', newline="") as f:
         tsv_w = csv.writer(f, delimiter="\t")
         tsv_w.writerows(id_sets)
 
