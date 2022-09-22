@@ -1,6 +1,6 @@
 import os
+import csv
 import json
-
 
 def get_id(root="OpenBG-IMG", c="train"):
     entities = set()
@@ -31,4 +31,26 @@ def get_id(root="OpenBG-IMG", c="train"):
         json.dump(entities2id, f)
     with open(os.path.join(root, 'relations2id.json'), 'w') as f:
         json.dump(relations2id, f)
-get_id()
+    
+    return entities2id, relations2id
+
+def sets2id(entities2id, relations2id, root="OpenBG-IMG", sets='train'):
+    id_sets = []
+    
+    with open(os.path.join(root, root+'_'+sets+'.tsv'), 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.split()
+            ids = [entities2id[line[0]], relations2id[line[1]], entities2id[line[2]]]
+            id_sets.append(ids)
+    
+    with open(os.path.join(root, sets+'_id.tsv'), 'w') as f:
+        tsv_w = csv.writer(f, delimiter="\t")
+        tsv_w.writerows(id_sets)
+
+
+
+
+if __name__ == "__main__":
+    en2id, rel2id = get_id()
+    sets2id(entities2id=en2id, relations2id=rel2id)
