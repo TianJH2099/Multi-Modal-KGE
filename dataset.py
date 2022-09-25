@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset
+import os
 
 class TripleSets(Dataset):
     def __init__(self, path='../input/mkgsets'):
