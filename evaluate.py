@@ -11,14 +11,10 @@ def evaluate(pre, target, emb, device):
     tot_MRR = 0.0
     tot_MR = 0
 
-#     pre = (-res).cpu().detach().numpy()
     pre = pre.cpu().detach().numpy()
     for i,each in enumerate(pre):
         max_idx = np.argmax(each)
         m = np.argpartition(each, max_idx)
-#         hit3 = m[:3]
-#         hit5 = m[:5]
-#         hit10 = m[:10]
         if target[i] == max_idx:
             tot_hit1 += 1
         if target[i] in m[:3]:
