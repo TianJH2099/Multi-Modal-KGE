@@ -1,14 +1,19 @@
+import os
+import numpy as np
+import torch
 import torch.nn as nn
 from torch.nn import functional as F, init
 from torch.autograd import Variable
 from torch.nn.init import xavier_uniform_, xavier_normal_
+from torch.autograd import Variable
 from ResNet50 import resnet50
+from PIL import Image
 
-class ConvR(torch.nn.Module):
+class ConvR(nn.Module):
     def __init__(self, args, num_entities, num_relations, device):
         super(ConvR, self).__init__()
 
-        
+        self.device = device
         self.emb_e = nn.Embedding(num_entities, args.embedding_dim, padding_idx=0)
         # 建立卷积核表
         self.conv_r = [nn.Conv2d(1, 32, (3, 3), 1, 0, bias=args.use_bias) for i in range(num_relations)]
@@ -64,10 +69,10 @@ class ConvR(torch.nn.Module):
         # shape [batch size, 32, 16, 8]
         for i in range(x.shape[0]):
             if i == 0:
-                input_x = self.conv_r[rel[i]].to(device)(x[i]).unsqueeze(dim=0)
+                input_x = Variable(self.conv_r[rel[i]]).to(self.device)(x[i]).unsqueeze(dim=0)
             else:
-                input_x = torch.cat([input_x, self.conv_r[rel[i]].to(device)(x[i]).unsqueeze(dim=0)], dim=0)
-        x= self.bn1(input_x.to(device))
+                input_x = torch.cat([input_x, Variable(self.conv_r[rel[i]]).to(self.device)(x[i]).unsqueeze(dim=0)], dim=0)
+        x= self.bn1(input_x.to(self.device))
         x= F.relu(x)
         x = self.feature_map_drop(x)
         # shape [batch size, -1]
