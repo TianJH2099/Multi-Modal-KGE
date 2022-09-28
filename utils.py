@@ -57,11 +57,39 @@ def sets2id(entities2id, relations2id, root="OpenBG-IMG", sets='train'):
         tsv_w = csv.writer(f, delimiter="\t")
         tsv_w.writerows(id_sets)
 
+def id2text(root="OpenBG-IMG", c="train"):
+    f_path = os.path.join(root, root+"_"+c+".tsv")
+    
+    entity2text = dict()
+    relation2text = dict()
+    text_set = []
+    
+    with open(os.path.join(root, root+"_entity2text.tsv"), "r", encoding="utf-8") as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.split()
+            entity2text[line[0]] = line[1]
+    
+    with open(os.path.join(root, root+"_relation2text.tsv"), "r", encoding="utf-8") as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.split()
+            relation2text[line[0]] = line[1]
 
+    with open(f_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.split()
+            text_set.append([entity2text[line[0]], relation2text[line[1]], entity2text[line[2]]])
+
+    with open(os.path.join(root, root+"_text_"+c+".tsv"), "w", encoding="utf-8") as f:
+        w = csv.writer(f, delimiter='\t')
+        w.writerows(text_set)
 
 
 if __name__ == "__main__":
-    en2id, rel2id = get_id()
-    sets2id(entities2id=en2id, relations2id=rel2id)
-    sets2id(entities2id=en2id, relations2id=rel2id, sets="dev")
-    sets2id(entities2id=en2id, relations2id=rel2id, sets="test")
+    # en2id, rel2id = get_id()
+    # sets2id(entities2id=en2id, relations2id=rel2id)
+    # sets2id(entities2id=en2id, relations2id=rel2id, sets="dev")
+    # sets2id(entities2id=en2id, relations2id=rel2id, sets="test")
+    id2text(c="dev")
