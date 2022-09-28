@@ -82,7 +82,7 @@ def id2text(root="OpenBG-IMG", c="train"):
             line = line.split()
             text_set.append([entity2text[line[0]], relation2text[line[1]], entity2text[line[2]]])
 
-    with open(os.path.join(root, root+"_text_"+c+".tsv"), "w", encoding="utf-8") as f:
+    with open(os.path.join(root, root+"_text_"+c+".tsv"), "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter='\t')
         w.writerows(text_set)
 
@@ -92,4 +92,4 @@ if __name__ == "__main__":
     # sets2id(entities2id=en2id, relations2id=rel2id)
     # sets2id(entities2id=en2id, relations2id=rel2id, sets="dev")
     # sets2id(entities2id=en2id, relations2id=rel2id, sets="test")
-    id2text(c="dev")
+    id2text()
