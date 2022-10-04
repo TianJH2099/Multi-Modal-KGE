@@ -38,6 +38,7 @@ def sets2id(entities2id, relations2id, root="OpenBG-IMG", sets='train'):
     id_sets = []
     
     if sets=="test":
+        id_sets.append(['head', 'rel'])
         with open(os.path.join(root, root+'_'+sets+'.tsv'), 'r') as f:
             lines = f.readlines()
             for line in lines:
@@ -46,6 +47,7 @@ def sets2id(entities2id, relations2id, root="OpenBG-IMG", sets='train'):
                 id_sets.append(ids)
     
     else:
+        id_sets.append(['head', 'rel', 'tail'])
         with open(os.path.join(root, root+'_'+sets+'.tsv'), 'r') as f:
             lines = f.readlines()
             for line in lines:
@@ -62,7 +64,7 @@ def id2text(root="OpenBG-IMG", c="train"):
     
     entity2text = dict()
     relation2text = dict()
-    text_set = []
+    text_set = [['head', 'rel', 'tail']]
     
     with open(os.path.join(root, root+"_entity2text.tsv"), "r", encoding="utf-8") as f:
         lines = f.readlines()
@@ -88,8 +90,8 @@ def id2text(root="OpenBG-IMG", c="train"):
 
 
 if __name__ == "__main__":
-    # en2id, rel2id = get_id()
-    # sets2id(entities2id=en2id, relations2id=rel2id)
-    # sets2id(entities2id=en2id, relations2id=rel2id, sets="dev")
-    # sets2id(entities2id=en2id, relations2id=rel2id, sets="test")
+    en2id, rel2id = get_id()
+    sets2id(entities2id=en2id, relations2id=rel2id)
+    sets2id(entities2id=en2id, relations2id=rel2id, sets="dev")
+    sets2id(entities2id=en2id, relations2id=rel2id, sets="test")
     id2text()
