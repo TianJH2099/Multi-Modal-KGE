@@ -11,7 +11,7 @@ class TripleSets(Dataset):
     
     def __getitem__(self, index):
         item = self.data.loc[index]
-        return item[0], item[2], item[1]
+        return item[0], item[1], item[2]
     
     def __len__(self):
         return len(self.data)
