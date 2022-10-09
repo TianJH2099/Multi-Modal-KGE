@@ -1,3 +1,4 @@
+from pickletools import TAKEN_FROM_ARGUMENT1
 import numpy as np
 import torch
 
@@ -16,7 +17,7 @@ def evaluate(pre, target, device):
     for i,each in enumerate(pre):
         t = target[i]
         sort_value, sort_key = torch.sort(each, dim=0, descending=True)
-        sort_key = sort_key.cpu().numpy()
+        sort_key = sort_key.cpu()
         # each.sort(descending=True)
         t_idx = np.where(sort_key==t)[0][0]
         if t_idx < 1:
