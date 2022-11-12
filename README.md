@@ -3,7 +3,7 @@
 * ResNet50+KGE Model
 
 -----
-ResNet50最后特征提取需要修改
+ResNet50最后特征提取需要修改，图片特征提取学习需要重新设计
 目前ConvE、ConvR和TuckER实验，但是数据量过大，容易陷入局部最优
 
 Adam优化器容易陷入局部最优 Loss:3.
